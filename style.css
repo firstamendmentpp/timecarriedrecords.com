@@ -1,0 +1,11 @@
+.suse-mono-uniquifier {
+  font-family: "SUSE Mono", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+}
+
+.font-size {
+    font-size: 1.25rem;
+    padding-top: .5rem;
+}
