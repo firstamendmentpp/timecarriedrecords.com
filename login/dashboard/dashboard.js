@@ -5,13 +5,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   );
 
   // Get current user
-
   const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-        // Not logged in → redirect
-        window.location.href = "https://example.com"; 
-        return;
-    }
+  if (!user) {
+      window.location.href = "/employees"; // not logged in → redirect
+      return;
+  }
 
   console.log("Logged in user:", user.id, user.email);
 
@@ -36,8 +34,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (storageError) throw storageError;
 
-      const { data } = supabase.storage.from("songs").getPublicUrl(filePath);
-      const publicUrl = data.publicUrl;
+      // Generate a signed URL so <audio> can play
+      const { data: signedData, error: signedError } = await supabase
+        .storage
+        .from("songs")
+        .createSignedUrl(filePath, 60 * 60); // valid 1 hour
+
+      if (signedError) throw signedError;
+      const publicUrl = signedData.signedUrl;
 
       // Save entry in the songs table
       const { error: dbError } = await supabase
@@ -69,10 +73,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const songList = document.getElementById("songList");
-    songList.innerHTML = songs.map(song => `
-      <div>
+
+    // Generate signed URLs for all songs to make <audio> playable
+    const songsWithUrls = await Promise.all(
+      songs.map(async (song) => {
+        const filePath = song.file_url.split("/storage/v1/object/public/songs/")[1] || song.file_url;
+        const { data: signedData, error: signedError } = await supabase
+          .storage
+          .from("songs")
+          .createSignedUrl(filePath, 60 * 60);
+
+        if (signedError) {
+          console.error("Failed to generate signed URL:", signedError);
+          return { ...song, file_url: "" };
+        }
+        return { ...song, file_url: signedData.signedUrl };
+      })
+    );
+
+    songList.innerHTML = songsWithUrls.map(song => `
+      <div class="mb-3">
         <strong>${song.title}</strong><br>
-        <audio controls src="${song.file_url}"></audio>
+        ${song.file_url ? `<audio controls src="${song.file_url}"></audio>` : `<span class="text-danger">Cannot play file</span>`}
       </div>
     `).join("");
   }
