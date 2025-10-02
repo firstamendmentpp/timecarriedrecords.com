@@ -5,99 +5,93 @@ document.addEventListener("DOMContentLoaded", async () => {
   );
 
   // Get current user
+
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-      window.location.href = "/employees"; // not logged in → redirect
-      return;
-  }
+    if (!user) {
+        // Not logged in → redirect
+        window.location.href = "https://example.com"; 
+        return;
+    }
 
   console.log("Logged in user:", user.id, user.email);
 
   // Handle upload
-  document.getElementById("uploadForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const file = document.getElementById("songFile").files[0];
-    const title = document.getElementById("songTitle").value.trim();
+  const file = document.getElementById("songFile").files[0];
+  const coverFile = document.getElementById("coverFile").files[0];
+  const title = document.getElementById("songTitle").value.trim();
 
-    if (!file) return alert("Choose a file first.");
-    if (!title) return alert("Enter a song title.");
+  if (!file) return alert("Choose a file first.");
+  if (!title) return alert("Enter a song title.");
 
-    try {
-      const filePath = `${user.id}/${Date.now()}_${file.name}`;
+  try {
+    // 1️⃣ Upload song
+    const songPath = `${user.id}/${Date.now()}_${file.name}`;
+    const { error: songError } = await supabase
+      .storage
+      .from("songs")
+      .upload(songPath, file, { upsert: true });
 
-      // Upload to Supabase storage
-      const { data: storageData, error: storageError } = await supabase
+    if (songError) throw songError;
+
+    const { data: songData } = supabase.storage.from("songs").getPublicUrl(songPath);
+    const songUrl = songData.publicUrl;
+
+    // 2️⃣ Upload cover if exists
+    let coverUrl = 'images/default-cover.jpg'; // fallback
+    if (coverFile) {
+      const coverPath = `${user.id}/${Date.now()}_${coverFile.name}`;
+      const { error: coverError } = await supabase
         .storage
-        .from("songs")
-        .upload(filePath, file);
+        .from("covers")
+        .upload(coverPath, coverFile, { upsert: true });
 
-      if (storageError) throw storageError;
+      if (coverError) throw coverError;
 
-      // Generate a signed URL so <audio> can play
-      const { data: signedData, error: signedError } = await supabase
-        .storage
-        .from("songs")
-        .createSignedUrl(filePath, 60 * 60); // valid 1 hour
-
-      if (signedError) throw signedError;
-      const publicUrl = signedData.signedUrl;
-
-      // Save entry in the songs table
-      const { error: dbError } = await supabase
-        .from("songs")
-        .insert([{ user_id: user.id, title, file_url: publicUrl }]);
-
-      if (dbError) throw dbError;
-
-      alert("Upload successful!");
-      document.getElementById("uploadForm").reset();
-      loadSongs(); // refresh list
-    } catch (err) {
-      console.error(err);
-      alert("Upload failed: " + err.message);
+      const { data: coverData } = supabase.storage.from("covers").getPublicUrl(coverPath);
+      coverUrl = coverData.publicUrl;
     }
-  });
+
+    // 3️⃣ Save to DB
+    const { error: dbError } = await supabase
+      .from("songs")
+      .insert([{ user_id: user.id, title, file_url: songUrl, cover_url: coverUrl }]);
+
+    if (dbError) throw dbError;
+
+    alert("Upload successful!");
+    document.getElementById("uploadForm").reset();
+    loadSongs();
+
+  } catch (err) {
+    console.error(err);
+    alert("Upload failed: " + err.message);
+  }
+});
 
   // Load user's songs
   async function loadSongs() {
-    const { data: songs, error } = await supabase
-      .from("songs")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
+  const { data: songs, error } = await supabase
+    .from("songs")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error(error);
-      return;
-    }
+  if (error) return console.error(error);
 
-    const songList = document.getElementById("songList");
-
-    // Generate signed URLs for all songs to make <audio> playable
-    const songsWithUrls = await Promise.all(
-      songs.map(async (song) => {
-        const filePath = song.file_url.split("/storage/v1/object/public/songs/")[1] || song.file_url;
-        const { data: signedData, error: signedError } = await supabase
-          .storage
-          .from("songs")
-          .createSignedUrl(filePath, 60 * 60);
-
-        if (signedError) {
-          console.error("Failed to generate signed URL:", signedError);
-          return { ...song, file_url: "" };
-        }
-        return { ...song, file_url: signedData.signedUrl };
-      })
-    );
-
-    songList.innerHTML = songsWithUrls.map(song => `
-      <div class="mb-3">
-        <strong>${song.title}</strong><br>
-        ${song.file_url ? `<audio controls src="${song.file_url}"></audio>` : `<span class="text-danger">Cannot play file</span>`}
+  const songList = document.getElementById("songList");
+  songList.innerHTML = songs.map(song => `
+    <div class="song-card">
+      <img src="${song.cover_url}" alt="${song.title} cover" class="song-cover">
+      <div class="song-info">
+        <h3>${song.title}</h3>
+        <audio controls src="${song.file_url}"></audio>
       </div>
-    `).join("");
-  }
+    </div>
+  `).join("");
+}
 
   loadSongs();
 });

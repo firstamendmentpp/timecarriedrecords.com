@@ -120,3 +120,55 @@ body {
     color: #222222;
     text-decoration: none;
 }
+
+
+.size-size {
+    width: 30%;
+    height: auto;
+    display: flex;
+    padding-bottom: 4rem;
+}
+
+.tcb-bg {
+    background: rgb(187, 175, 159);
+}
+
+.text {
+    text-align: center;
+}
+
+
+
+#songList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.song-card {
+  background: #1c1c1c;
+  border-radius: 10px;
+  padding: 10px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.song-cover {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.song-info h3 {
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
