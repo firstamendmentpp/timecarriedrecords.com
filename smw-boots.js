@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6anRxcnBiZHlkd2phbXBuZmt4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyNTE3ODEsImV4cCI6MjA3NDgyNzc4MX0.7xZMOgG41irpm6bPnjiKqZrejnvzAMm6bsOZtloeWGs"
   );
 
-  const userId = "ca57f373-f3ac-48c0-9d9e-b19992ab0654";
+  const userId = "7b5f78f7-45a5-40ad-bc1b-b443f66e29b0";
 
   const { data: songs, error } = await supabase
     .from("songs")
