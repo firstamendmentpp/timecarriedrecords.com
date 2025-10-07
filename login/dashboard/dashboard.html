@@ -49,13 +49,26 @@
 
 
 <form id="uploadForm">
+  <label for="songFile">Song File (audio)</label><br>
   <input type="file" id="songFile" accept="audio/*" required />
+  <br><br>
+
+  <label for="coverFile">Cover Image (picture)</label><br>
   <input type="file" id="coverFile" accept="image/*" />
-  <input type="text" id="songTitle" placeholder="Song Title" required />
+  <br><br>
+
+  <label for="songTitle">Song Title</label><br>
+  <input type="text" id="songTitle" placeholder="Enter song title..." required />
+  <br><br>
+
   <button type="submit">Upload Song</button>
 </form>
 
 <div id="songList"></div>
+
+
+<h1>Uploaded Music:</h1>
+
 
 <script src="dashboard.js"></script>
 

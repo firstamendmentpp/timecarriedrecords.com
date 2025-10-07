@@ -50,39 +50,41 @@
 
 
 :root {
-  --battleship-gray: #8C8C8B;
-  --old-gold: #B3B324;
-  --citron: #D4D477;
-  --reseda-green: #6B6B47;
-  --drab-dark-brown: #47471F;
+  /* Colors */
+  --platinum: #d8dbe2;
+  --powder-blue: #a9bcd0;
+  --moonstone: #58a4b0;
+  --charcoal: #373f51;
+  --eerie-black: #1b1b1e;
+  --onyx: #353839;
 
-  --gradient-top: linear-gradient(0deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-right: linear-gradient(90deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-bottom: linear-gradient(180deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-left: linear-gradient(270deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-top-right: linear-gradient(45deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-bottom-right: linear-gradient(135deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-top-left: linear-gradient(225deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-bottom-left: linear-gradient(315deg, #8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
-  --gradient-radial: radial-gradient(#8C8C8B, #B3B324, #D4D477, #6B6B47, #47471F);
+  /* HSL equivalents (optional, but handy if you want to tweak with lightness/saturation) */
+  --platinum-hsl: 222, 15%, 87%;
+  --powder-blue-hsl: 211, 29%, 74%;
+  --moonstone-hsl: 188, 36%, 52%;
+  --charcoal-hsl: 222, 19%, 27%;
+  --eerie-black-hsl: 240, 5%, 11%;
+
+  /* Gradients */
+  --gradient-top: linear-gradient(0deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-right: linear-gradient(90deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-bottom: linear-gradient(180deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-left: linear-gradient(270deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-top-right: linear-gradient(45deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-bottom-right: linear-gradient(135deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-top-left: linear-gradient(225deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-bottom-left: linear-gradient(315deg, var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
+  --gradient-radial: radial-gradient(var(--platinum), var(--powder-blue), var(--moonstone), var(--charcoal), var(--eerie-black));
 }
 
 
-
-
 body {
-    background: var(--gradient-bottom);
+    background: var(--charcoal);
     min-height: 100vh;
 }
 
 
-.header-bg {
-    background-color: var(--reseda-green);
-}
 
-.footer-bg {
-    background-color: var(--battleship-gray);
-}
 
 
 

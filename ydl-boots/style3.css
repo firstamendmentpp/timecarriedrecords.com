@@ -57,7 +57,7 @@
 
 
 body {
-    background: var(--charcoal);
+    background: var(--english-violet);
     min-height: 100vh;
 }
 
@@ -75,10 +75,14 @@ body {
 
 .font {
   color: #a9bcd0;
-  padding-top: 1.5rem;
   padding-left: 0;
   padding-right: 0;
 }
+
+.fontfont {
+  color: var(--mimi-pink);
+}
+
 
 
 .font-size2 {
@@ -132,10 +136,26 @@ body {
 }
 
 
+.banner-size {
+    width: 100vw;
+    height: auto;
+}
 
 
-.tcb-bg {
-    background: rgb(187, 175, 159);
+.who-is-boots {
+  border-radius: 7.5px;
+}
+
+.who-is-boots2 {
+  font-size: 2.25rem;
+  padding-top: .5rem;
+  color: var(--raisin-black);
+  padding-bottom: .75rem;
+}
+
+.who-is-boots3 {
+  font-size: 1.5rem;
+  color: var(--raisin-black);
 }
 
 .text {
@@ -233,4 +253,53 @@ body {
   color: black;
   font-size: 1.5rem;
   text-align: center;
+}
+
+
+
+
+
+
+/* BOOTS COLORS */
+
+
+
+:root {
+  /* Colors (HEX) */
+  --raisin-black: #1a1423;
+  --english-violet: #3d314a;
+  --eggplant: #684756;
+  --chamoisee: #96705b;
+  --beaver: #ab8476;
+  --rebbecca-purple: #663399;
+  --mimi-pink: #F5D7E5;
+
+  /* Colors (HSL) */
+  --raisin-black-hsl: 264, 27%, 11%;
+  --english-violet-hsl: 269, 20%, 24%;
+  --eggplant-hsl: 333, 19%, 34%;
+  --chamoisee-hsl: 21, 24%, 47%;
+  --beaver-hsl: 16, 24%, 57%;
+
+  /* Gradients */
+  --gradient-top: linear-gradient(0deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-right: linear-gradient(90deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-bottom: linear-gradient(180deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-left: linear-gradient(270deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-top-right: linear-gradient(45deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-bottom-right: linear-gradient(135deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-top-left: linear-gradient(225deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-bottom-left: linear-gradient(315deg, var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+  --gradient-radial: radial-gradient(var(--raisin-black), var(--english-violet), var(--eggplant), var(--chamoisee), var(--beaver));
+}
+
+
+.text3 {
+    color: var(--mimi-pink);
+}
+
+
+.socials-size {
+  width: 80%;
+  height: auto;
 }
